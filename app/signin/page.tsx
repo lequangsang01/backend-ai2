@@ -1,19 +1,45 @@
-import React from "react";
+"use client"  
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
+import axios from 'axios';
 export const metadata: Metadata = {
-  title: "Signin Page | Next.js E-commerce Dashboard Template",
-  description: "This is Signin page for TailAdmin Next.js",
-  // other metadata
+  title: "Trang Đăng nhập | Next.js E-commerce Dashboard Template",
+  description: "Đây là trang đăng nhập cho TailAdmin Next.js",
+  // các thông tin metadata khác
 };
 
-const url = process.env.BACKEND_API_URL
-const register = `${url}/api/register`
-console.log("-----------url--------",register)
+const url = 'http://127.0.0.1:8000'
+const urlLogin = `${url}/api/login`
 
 const SignIn: React.FC = () => {
+  const [email_or_parent_id, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(urlLogin, { email_or_parent_id, password });
+      // Handle successful registration (e.g., redirect to a success page)
+      console.log("Registration successful:", response.data);
+      // Redirect to success page or display a success message
+    } catch (error) {
+      setError(error.response.data.message || "Registration failed");
+    }
+  };
   return (
     <>
       {/* <Breadcrumb pageName="Sign In" /> */}
@@ -55,15 +81,17 @@ const SignIn: React.FC = () => {
                 Sign In to TailAdmin
               </h2>
 
-              <form>
+              <form  onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>
                   <div className="relative">
                     <input
-                      type="email"
-                      placeholder="Enter your email"
+                      value={email_or_parent_id}
+                      onChange={handleEmailChange}
+                      type="email_or_parent_id"
+                      placeholder="Enter your email_or_parent_id"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
 
@@ -93,6 +121,8 @@ const SignIn: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
+                      value={password}
+                      onChange={handlePasswordChange}
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -121,6 +151,7 @@ const SignIn: React.FC = () => {
                     </span>
                   </div>
                 </div>
+                {error && <p className="text-red-500">{error}</p>}
 
                 <div className="mb-5">
                   <input
