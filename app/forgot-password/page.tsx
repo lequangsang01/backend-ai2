@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useNavigate } from "react-router-dom";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { useRouter } from 'next/navigation';
 import { Metadata } from "next";
 import axios from 'axios';
 export const metadata: Metadata = {
@@ -17,7 +15,8 @@ const url = 'http://127.0.0.1:8000'
 const urlLogin = `${url}/api/send-forgot-password-otp`
 
 const ForgotPassword: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
+  // const navigate = useNavigate();
   const [email_or_parent_id, setEmail] = useState("");
   const [error, setError] = useState(null);
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +29,7 @@ const ForgotPassword: React.FC = () => {
       const response = await axios.post(urlLogin, { email_or_parent_id });
       console.log("Registration successful:", response.data);
       if(response.data){
-        navigate("/verify-otp");
+        router.push('/verify-otp');
       }
     } catch (error) {
       setError(error.response?.data?.message || "Registration failed");
