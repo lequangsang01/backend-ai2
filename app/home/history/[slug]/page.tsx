@@ -1,68 +1,30 @@
 "use client"
-import { useState, useRef } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Chart Page | Next.js E-commerce Dashboard Template",
-  description: "This is Chart Page for TailAdmin Next.js",
-  // other metadata
-};
 
-const url = 'http://127.0.0.1:8000';
-const urlPredict = `${url}/api/predict`;
+const url = 'http://127.0.0.1:8000'
+const historyEndpoint = `${url}/api/history`
 
-const Home = () => {
-  const [image1, setImage1] = useState<any>(null);
-  const [image2, setImage2] = useState<any>(null);
-  const [result, setResult] = useState<any>(null);
-  const inputRef1 = useRef(null);
-  const inputRef2 = useRef(null);
-
-  const handleImageChange = (event: any, setImageFunc: any) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setImageFunc({ file, preview: reader.result });
+export default function Page({ params }: { params: { slug: string } }) {
+  const [historyData, setHistoryData] = useState<any>();
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const response = await axios.get(historyEndpoint+"/"+params.slug, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        console.log("++========response==",response)
+        setHistoryData(response.data);
+      } catch (error) {
+        console.error("Error fetching history:", error);
+      }
     };
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImage1Change = (event: any) => {
-    handleImageChange(event, setImage1);
-  };
-
-  const handleImage2Change = (event: any) => {
-    handleImageChange(event, setImage2);
-  };
-
-  const handleSubmit = () => {
-    // Send images to the API with Authorization header
-    const formData = new FormData();
-    formData.append('image1', image1.file);
-    formData.append('image2', image2.file);
-
-    fetch(urlPredict, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: formData,
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the API response
-        setResult(data);
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
-
+    fetchHistory();
+  }, []);
   return (
     <>
       <Breadcrumb pageName="Home" />
@@ -72,13 +34,13 @@ const Home = () => {
           className="col-span-4 h-96 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
         >
           <input
-            onChange={handleImage1Change}
+            disabled
             type="file"
             accept="image/*"
             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
           />
-          {image1 && <img src={image1.preview} alt="Image 1" />}
-          {!image1 &&
+          {historyData && <img src={url+"/"+historyData?.url_image1} alt="Image 1" />}
+          {!historyData &&
             <div className="flex flex-col items-center justify-center space-y-3 ">
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                 <svg
@@ -122,13 +84,13 @@ const Home = () => {
             className=" h-96 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
           >
             <input
-              onChange={handleImage2Change}
+              disabled
               type="file"
               accept="image/*"
               className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
             />
-            {image2 && <img src={image2.preview} alt="Image 2" />}
-            {!image2 &&
+            {historyData && <img src={url+"/"+historyData?.url_image2} alt="Image 2" />}
+            {!historyData &&
               <div className="flex flex-col items-center justify-center space-y-3 ">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                   <svg
@@ -167,24 +129,22 @@ const Home = () => {
             }
 
           </div>
-          <div>
+          {/* <div>
             <button onClick={handleSubmit} className="bg-blue-500 text-red py-2 px-4 rounded float-right">
               Submit
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="col-span-4">
-          {result && result.predict_result && (
+          {historyData && historyData.predict_result && (
             <div>
-              <h1 className="text-lg font-semibold font-size-18">Diagnostic results:</h1>
-              <p className="text-lg font-semibold">{result.predict_result}</p>
+              <h1 className="text-lg font-semibold font-size-18">Diagnostic historyDatas:</h1>
+              <p className="text-lg font-semibold">{historyData.predict_result}</p>
             </div>
           )}
         </div>
       </div>
     </>
   );
-};
-
-export default Home;
+}

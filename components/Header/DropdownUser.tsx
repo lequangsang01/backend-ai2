@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+
+
+const url = 'http://127.0.0.1:8000'
+const userinfo = `${url}/api/user-info`
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const [userName, setUserName] = useState("");
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
 
@@ -34,6 +39,30 @@ const DropdownUser = () => {
     return () => document.removeEventListener("keydown", keyHandler);
   });
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(userinfo, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response) {
+          if (response.data.user && response.data.user.name) {
+            setUserName(response.data.user.name); // Set the received user name
+          }
+        } else {
+          throw new Error('Failed to fetch user info');
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        // Handle error states here
+      }
+    };
+
+    fetchUserInfo();
+  }, [userinfo]);
+
   return (
     <div className="relative">
       <Link
@@ -44,9 +73,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {userName || 'Loading...'}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          {/* <span className="block text-xs">UX Designer</span> */}
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -110,7 +139,7 @@ const DropdownUser = () => {
               My Profile
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               href="#"
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
@@ -130,8 +159,8 @@ const DropdownUser = () => {
               </svg>
               My Contacts
             </Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link
               href="/pages/settings"
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
@@ -155,7 +184,7 @@ const DropdownUser = () => {
               </svg>
               Account Settings
             </Link>
-          </li>
+          </li> */}
         </ul>
         <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
