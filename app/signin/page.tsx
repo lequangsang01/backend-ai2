@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 export const metadata: Metadata = {
   title: "Trang Đăng nhập | Next.js E-commerce Dashboard Template",
   description: "Đây là trang đăng nhập cho TailAdmin Next.js",
@@ -16,6 +16,7 @@ const url = 'http://127.0.0.1:8000'
 const urlLogin = `${url}/api/login`
 
 const SignIn: React.FC = () => {
+  const router = useRouter();
   const [email_or_parent_id, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -36,6 +37,10 @@ const SignIn: React.FC = () => {
       // Handle successful registration (e.g., redirect to a success page)
       console.log("Registration successful:", response.data);
       // Redirect to success page or display a success message
+      if(response.data){
+        localStorage.setItem('token', response.data?.token);
+        router.push('/home');
+      }
     } catch (error : any) {
       setError(error.response.data.message || "Registration failed");
     }
