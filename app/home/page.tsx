@@ -17,11 +17,11 @@ const Home = () => {
   const [result, setResult] = useState<any>(null);
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (event: any, setImageFunc: any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
     reader.onloadend = () => {
       setImageFunc({ file, preview: reader.result });
     };
@@ -40,6 +40,7 @@ const Home = () => {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     // Send images to the API with Authorization header
     const formData = new FormData();
     formData.append('image1', image1.file);
@@ -55,6 +56,7 @@ const Home = () => {
       .then(response => response.json())
       .then(data => {
         // Handle the API response
+        setLoading(false);
         setResult(data);
         console.log(data);
       })
@@ -66,20 +68,44 @@ const Home = () => {
   return (
     <>
       <Breadcrumb pageName="Home" />
-      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 h-[75vh]">
         <div
           id="FileUpload"
-          className="col-span-4 h-96 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+          className="col-span-4 h-[70vh] relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
         >
           <input
+            disabled={image1}
             onChange={handleImage1Change}
             type="file"
             accept="image/*"
             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
           />
-          {image1 && <img src={image1.preview} alt="Image 1" />}
+          {image1 && (
+            <div className="relative h-full w-full">
+              <img
+                src={image1.preview}
+                alt="Image 1"
+                className="object-contain h-full w-full"
+              />
+            </div>
+          )}
+          {!loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 relative w-full h-full">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-500 via-blue-500 to-transparent w-full h-[10px]"></div>
+              <p>loading ...</p>
+            </div>
+          )}
+          {/* {!loading && (
+            // Thêm hiệu ứng quét tại đây
+            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+              <div className="relative w-full h-full">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-500 via-blue-500 to-transparent animate-scan"></div>
+                <p className="text-white z-10">Scanning...</p>
+              </div>
+            </div>
+          )} */}
           {!image1 &&
-            <div className="flex flex-col items-center justify-center space-y-3 ">
+            <div className="flex flex-col items-center justify-center space-y-3 mt-[22vh]">
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                 <svg
                   width="16"
@@ -119,9 +145,10 @@ const Home = () => {
         <div className="col-span-4">
           <div
             id="FileUpload"
-            className=" h-96 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+            className=" h-[70vh] relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
           >
             <input
+              disabled={image2}
               onChange={handleImage2Change}
               type="file"
               accept="image/*"
@@ -129,7 +156,7 @@ const Home = () => {
             />
             {image2 && <img src={image2.preview} alt="Image 2" />}
             {!image2 &&
-              <div className="flex flex-col items-center justify-center space-y-3 ">
+              <div className="flex flex-col items-center justify-center space-y-3 mt-[22vh] ">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                   <svg
                     width="16"
@@ -168,13 +195,13 @@ const Home = () => {
 
           </div>
           <div>
-            <button onClick={handleSubmit} className="bg-blue-500 text-red py-2 px-4 rounded float-right">
+            <button onClick={handleSubmit} className="bg-blue-500 text-red py-2 px-4 rounded float-right h-[5vh]">
               Submit
             </button>
           </div>
         </div>
 
-        <div className="col-span-4">
+        <div className="col-span-4 h-[70vh]">
           {result && result.predict_result && (
             <div>
               <h1 className="text-lg font-semibold font-size-18">Diagnostic results:</h1>
@@ -183,6 +210,22 @@ const Home = () => {
           )}
         </div>
       </div>
+      <style>
+        {`
+          @keyframes scan {
+            0% {
+              transform: translateY(-100%);
+            }
+            100% {
+              transform: translateY(100%);
+            }
+          }
+
+          .animate-scan {
+            animation: scan 1.5s linear infinite;
+          }
+        `}
+      </style>
     </>
   );
 };

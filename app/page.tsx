@@ -13,10 +13,10 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="fixed top-0 right-0 flex items-center p-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">
+          <button className="bg-blue-500 hover:bg-blue-600 text-back font-bold py-2 px-4 rounded mr-2">
             <Link href="/signup">Sign up</Link>
           </button>
-          <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+          <button className="bg-green-500 hover:bg-green-600 text-back font-bold py-2 px-4 rounded">
             <Link href="/signin">Login</Link>
           </button>
         </div>

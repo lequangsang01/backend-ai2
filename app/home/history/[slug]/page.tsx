@@ -16,7 +16,6 @@ export default function Page({ params }: { params: { slug: string } }) {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        console.log("++========response==",response)
         setHistoryData(response.data);
       } catch (error) {
         console.error("Error fetching history:", error);
@@ -28,10 +27,10 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       <Breadcrumb pageName="Home" />
-      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 h-[75vh]">
         <div
           id="FileUpload"
-          className="col-span-4 h-96 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+          className="col-span-4 h-[70vh] relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
         >
           <input
             disabled
@@ -81,7 +80,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         <div className="col-span-4">
           <div
             id="FileUpload"
-            className=" h-96 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+            className=" h-[70vh] relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
           >
             <input
               disabled
@@ -136,7 +135,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div> */}
         </div>
 
-        <div className="col-span-4">
+        <div className="col-span-4 h-[70vh]">
           {historyData && historyData.predict_result && (
             <div>
               <h1 className="text-lg font-semibold font-size-18">Diagnostic historyDatas:</h1>
