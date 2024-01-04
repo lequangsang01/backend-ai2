@@ -39,7 +39,7 @@ const SignIn: React.FC = () => {
       // Redirect to success page or display a success message
       if(response.data){
         localStorage.setItem('token', response.data?.token);
-        router.push('/home');
+        router.replace('/home');
       }
     } catch (error : any) {
       setError(error.response.data.message || "Registration failed");

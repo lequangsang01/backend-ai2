@@ -59,8 +59,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const handleLogout = () => {
     // Xóa token từ localStorage hoặc các bước khác liên quan đến việc đăng xuất
     localStorage.removeItem('token');
-
-    // Chuyển hướng đến trang đăng nhập hoặc trang chính của ứng dụng
     router.push('/'); // Thay thế '/login' bằng đường dẫn mong muốn sau khi đăng xuất
   };
 

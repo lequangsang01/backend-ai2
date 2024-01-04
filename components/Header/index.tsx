@@ -4,11 +4,35 @@ import DropdownMessage from "./DropdownMessage";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import jwt from 'jsonwebtoken';
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwt.decode(token);
+        if (decodedToken && decodedToken.exp) {
+          const expirationTime = decodedToken.exp * 1000;
+          const currentTime = new Date().getTime();
+          if (currentTime > expirationTime) {
+            localStorage.removeItem('token');
+            router.push('/');
+          }
+        }
+      } catch (error) {
+        console.error('Error decoding or checking token expiration:', error);
+      }
+    } else {
+      router.push('/');
+    }
+  }, []);
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">

@@ -19,6 +19,7 @@
     "axios": "^1.6.3",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "jsonwebtoken": "^9.0.2",
     "jsvectormap": "^1.5.3",
     "next": "13.4.12",
     "next-intl": "^3.4.1",
@@ -30,5 +31,8 @@
     "react-router-dom": "^6.21.1",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.5"
   }
 }
