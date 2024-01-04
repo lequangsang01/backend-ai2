@@ -81,7 +81,7 @@ const Home = () => {
             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
           />
           {image1 && (
-            <div className="relative h-full w-full">
+            <div className="relative h-full w-full z-10">
               <img
                 src={image1.preview}
                 alt="Image 1"
@@ -89,21 +89,12 @@ const Home = () => {
               />
             </div>
           )}
-          {!loading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 relative w-full h-full">
-              <div className="absolute inset-0 bg-gradient-to-b from-blue-500 via-blue-500 to-transparent w-full h-[10px]"></div>
-              <p>loading ...</p>
+          {loading && (
+            <div className="relative z-20 items-center justify-center bg-gray-500 bg-opacity-50 w-full h-full mt-[-65vh]">
+              <div className="loading w-ful animate-moveUpDown"></div>
+              {/* <p>loading ...</p> */}
             </div>
           )}
-          {/* {!loading && (
-            // Thêm hiệu ứng quét tại đây
-            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-              <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-gradient-to-b from-blue-500 via-blue-500 to-transparent animate-scan"></div>
-                <p className="text-white z-10">Scanning...</p>
-              </div>
-            </div>
-          )} */}
           {!image1 &&
             <div className="flex flex-col items-center justify-center space-y-3 mt-[22vh]">
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -142,7 +133,7 @@ const Home = () => {
             </div>
           }
         </div>
-        <div className="col-span-4">
+        <div className="col-span-4 h-[75vh]">
           <div
             id="FileUpload"
             className=" h-[70vh] relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
@@ -154,7 +145,22 @@ const Home = () => {
               accept="image/*"
               className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
             />
-            {image2 && <img src={image2.preview} alt="Image 2" />}
+            {/* {image2 && <img src={image2.preview} alt="Image 2" />} */}
+            {image2 && (
+            <div className="relative h-full w-full z-10">
+              <img
+                src={image2.preview}
+                alt="Image 2"
+                className="object-contain h-full w-full"
+              />
+            </div>
+          )}
+            {loading && (
+            <div className="relative z-20 items-center justify-center bg-gray-500 bg-opacity-50 w-full h-full mt-[-65vh]">
+              <div className="loading w-ful animate-moveUpDown"></div>
+              {/* <p>loading ...</p> */}
+            </div>
+          )}
             {!image2 &&
               <div className="flex flex-col items-center justify-center space-y-3 mt-[22vh] ">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -212,17 +218,24 @@ const Home = () => {
       </div>
       <style>
         {`
-          @keyframes scan {
-            0% {
-              transform: translateY(-100%);
+          @keyframes moveUpDown {
+            0%, 100% {
+              transform: translateY(0);
             }
-            100% {
-              transform: translateY(100%);
+            50% {
+              transform: translateY(65vh);
             }
           }
 
-          .animate-scan {
-            animation: scan 1.5s linear infinite;
+          .animate-moveUpDown {
+            animation: moveUpDown 4s linear infinite;
+          }
+
+          .loading {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px; /* Bo tròn 2 đầu là 1/2 chiều cao */
+            background-color: blue;
           }
         `}
       </style>

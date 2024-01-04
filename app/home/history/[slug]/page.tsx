@@ -38,7 +38,12 @@ export default function Page({ params }: { params: { slug: string } }) {
             accept="image/*"
             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
           />
-          {historyData && <img src={url+"/"+historyData?.url_image1} alt="Image 1" />}
+          {/* {historyData && <img src={url+"/"+historyData?.url_image1} alt="Image 1" />} */}
+          {historyData &&
+            <div className="relative h-full w-full z-10">
+              <img src={url+"/"+historyData?.url_image1} alt="Image 1" className="object-contain h-full w-full"/>
+            </div>
+          }
           {!historyData &&
             <div className="flex flex-col items-center justify-center space-y-3 ">
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -88,7 +93,12 @@ export default function Page({ params }: { params: { slug: string } }) {
               accept="image/*"
               className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
             />
-            {historyData && <img src={url+"/"+historyData?.url_image2} alt="Image 2" />}
+            {/* {historyData && <img src={url+"/"+historyData?.url_image2} alt="Image 2" />} */}
+            {historyData && 
+              <div className="relative h-full w-full z-10">
+                <img src={url+"/"+historyData?.url_image2} alt="Image 2" className="object-contain h-full w-full"/>
+              </div>
+            }
             {!historyData &&
               <div className="flex flex-col items-center justify-center space-y-3 ">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
