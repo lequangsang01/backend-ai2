@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
+import Image from "next/image";
 export const metadata: Metadata = {
   title: "Chart Page | Next.js E-commerce Dashboard Template",
   description: "This is Chart Page for TailAdmin Next.js",
@@ -18,10 +19,14 @@ const Home = () => {
   const [likeState, setLikeState] = useState<number | null>(null);
   const [comment, setComment] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [showMessenger, setShowMessenger] = useState<boolean>();
 
   const handleClearImages = () => {
     setImage1(null);
     setImage2(null);
+    setLikeState(null);
+    setComment("");
+    setResult(null)
   };
   const handleImageChange = (event: any, setImageFunc: any) => {
     const file = event.target.files[0];
@@ -94,8 +99,12 @@ const Home = () => {
     })
       .then(response => response.json())
       .then(data => {
+        setShowMessenger(true)
+        setTimeout(() => {
+          setShowMessenger(false);
+        }, 3000);
         // Handle the comment submission response
-        console.log(data);
+        // console.log(data);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -237,44 +246,67 @@ const Home = () => {
             }
 
           </div>
-          <div>
+          <div style={{height:"5vh"}}>
             
-            <button onClick={handleSubmit} disabled={!image2 && !image1} className=" handleSubmit bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]">
+            <button onClick={handleSubmit} disabled={(!image2 && !image1) || result} className=" handleSubmit bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]">
               Submit
             </button>
-            <button onClick={handleClearImages} disabled={!image2 && !image1} className=" handleClear bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]" style={{marginLeft:'20px'}}>
-              Clear
+            <button onClick={handleClearImages} disabled={!image2 && !image1} 
+              style={{marginRight:'10px'}}
+              className=" handleClear bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]">
+                Clear
             </button>
           </div>
         </div>
 
-        <div className="col-span-4 h-[70vh]">
+        <div className="col-span-4 h-[75vh]">
           {result && result.predict_result && (
             <div>
-              <div className="h-[35vh]">
+              <div className="h-[30vh]">
                 <h1 className="text-lg font-semibold font-size-18">Diagnostic results:</h1>
-                <p className="text-lg font-semibold">{result.predict_result}</p>
+                <p className="text-lg font-semibold">{result?.predict_result}</p>
               </div>
-              <div className="h-[35vh]">
-                <h1 className="text-lg font-semibold font-size-18">Do you agree with the result?</h1>
-                <div className="flex items-center">
+              <div className="h-[45vh]">
+                <div style={{height:"5vh", color:"green"}}>
+                  {showMessenger && (
+                    <p className="float-right" style={{fontSize:'20px'}}>Comment successfully</p>
+                  )}
+                </div>
+                <h1 style={{height:"5vh"}} className="text-lg font-semibold font-size-18">Do you agree with the result?</h1>
+                <div className="flex items-center" style={{width:"100%",height:"8vh"}}>
                   <button onClick={() => handleLike()} className="mr-2">
-                    <span>Like</span>
-                    {/* Add like icon here */}
+                    <span>
+                    {likeState === 1 ? (
+                        <Image width={32} height={32} src={"/images/icon/like-blue.svg"} alt="Liked" />
+                      ) : (
+                        <Image width={32} height={32} src={"/images/icon/like.svg"} alt="Like" />
+                      )}
+                    </span>
                   </button>
-                  <button onClick={() => handleDislike()}>
-                    <span>Dislike</span>
-                    {/* Add dislike icon here */}
+                  <button onClick={() => handleDislike()} style={{marginLeft:"10px"}}>
+                    <span>
+                    {likeState === 0 ? (
+                        <Image width={32} height={32} src={"/images/icon/dislike-blue.svg"} alt="Liked" />
+                      ) : (
+                        <Image width={32} height={32} src={"/images/icon/dislike.svg"} alt="Like" />
+                      )}
+                    </span>
                   </button>
                 </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Enter your comments"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                  <button onClick={() => sendComment(result.id_predict)}>Submit</button>
+                <textarea
+                  style={{width:"100%",height:"22vh", padding:'10px'}}
+                  placeholder="Enter your comments"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <div style={{height:"5vh"}}>
+                  <button 
+                    disabled={likeState === null}
+                    className=" handleSubmit bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]"
+                    onClick={() => sendComment(result?.id_predict)}
+                    style={{marginTop:"15px",color:"white",width:"80px",backgroundColor: likeState === null ? "#808080" : "blue",}}>
+                      Submit
+                  </button>
                 </div>
               </div>
             </div>
@@ -299,21 +331,23 @@ const Home = () => {
           .loading {
             width: 100%;
             height: 10px;
-            border-radius: 5px; /* Bo tròn 2 đầu là 1/2 chiều cao */
-            background-color: blue;
+            border-radius: 5px;
+            background-color: #0573F5;
           }
           .handleSubmit{
             background-color: blue;
-            text-color: white
+            text-color: white;
+            color:white;
+            width:80px
           }
-          .handleSubmit.disabled {
-            opacity: 0.5;
-            pointer-events: none;
+          .handleSubmit:disabled {
             background-color: #808080;
           }
           .handleClear{
-            background-color: blue;
-            margin-left: 30px;
+            text-color: white;
+            background-color: #cc1e1e;
+            color:white;
+            width:80px;
           }
         `}
       </style>

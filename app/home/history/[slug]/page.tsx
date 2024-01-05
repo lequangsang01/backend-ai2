@@ -2,12 +2,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Image from "next/image";
 
 const url = 'http://127.0.0.1:8000'
 const historyEndpoint = `${url}/api/history`
+const urlComments = `${url}/api/comments`;
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [historyData, setHistoryData] = useState<any>();
+  const [likeState, setLikeState] = useState<number | null>(null);
+  const [comment, setComment] = useState<string>("");
+  const [showMessenger, setShowMessenger] = useState<boolean>();
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -17,6 +23,9 @@ export default function Page({ params }: { params: { slug: string } }) {
           },
         });
         setHistoryData(response.data);
+        setLikeState(response.data.like);
+        setComment(response.data.comment)
+
       } catch (error) {
         console.error("Error fetching history:", error);
       }
@@ -24,6 +33,43 @@ export default function Page({ params }: { params: { slug: string } }) {
 
     fetchHistory();
   }, []);
+
+  const handleLike = () => {
+    setLikeState(1);
+  };
+
+  const handleDislike = () => {
+    setLikeState(0);
+  };
+
+  const sendComment = (idPredict: string) => {
+    const data = {
+      id_predict: idPredict,
+      like: likeState,
+      comment: comment,
+    };
+
+    fetch(urlComments, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setShowMessenger(true)
+        setTimeout(() => {
+          setShowMessenger(false);
+        }, 3000);
+        // console.log(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+    });
+  };
+
   return (
     <>
       <Breadcrumb pageName="Home" />
@@ -145,12 +191,61 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div> */}
         </div>
 
-        <div className="col-span-4 h-[70vh]">
+        <div className="col-span-4 h-[75vh]">
           {historyData && historyData.predict_result && (
-            <div>
-              <h1 className="text-lg font-semibold font-size-18">Diagnostic historyDatas:</h1>
-              <p className="text-lg font-semibold">{historyData.predict_result}</p>
-            </div>
+              <div>
+                <div className="h-[30vh]">
+                  <h1 className="text-lg font-semibold font-size-18">Diagnostic results:</h1>
+                  <p className="text-lg font-semibold">{historyData?.predict_result}</p>
+                </div>
+                <div className="h-[45vh]">
+                  <div style={{height:"5vh", color:"green"}}>
+                    {showMessenger && (
+                      <p className="float-right" style={{fontSize:'20px'}}>Comment successfully</p>
+                    )}
+                  </div>
+                  <h1 className="text-lg font-semibold font-size-18">Do you agree with the result?</h1>
+                  <div className="flex items-center" style={{width:"100%",height:"8vh"}}>
+                    <button onClick={() => handleLike()} className="mr-2">
+                      <span>
+                      {likeState === 1 ? (
+                          <Image width={32} height={32} src={"/images/icon/like-blue.svg"} alt="Liked" />
+                        ) : (
+                          <Image width={32} height={32} src={"/images/icon/like.svg"} alt="Like" />
+                        )}
+                      </span>
+                      {/* Add like icon here */}
+                    </button>
+                    <button onClick={() => handleDislike()} style={{marginLeft:"10px"}}>
+                      <span>
+                      {likeState === 0 ? (
+                          <Image width={32} height={32} src={"/images/icon/dislike-blue.svg"} alt="Liked" />
+                        ) : (
+                          <Image width={32} height={32} src={"/images/icon/dislike.svg"} alt="Like" />
+                        )}
+                      </span>
+                      {/* Add dislike icon here */}
+                    </button>
+                  </div>
+                  <div  className="flex items-center">
+                    <textarea
+                      style={{width:"100%",height:"22vh", padding:'10px'}}
+                      placeholder="Enter your comments"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                  </div>
+                  <div style={{height:"5vh"}}>
+                    <button 
+                      className=" handleSubmit bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]"
+                      onClick={() => sendComment(historyData?.id_predict)}
+                      style={{marginTop:"20px",backgroundColor:"blue",color:"white",width:"80px"}}>
+                        Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            
           )}
         </div>
       </div>

@@ -5,14 +5,15 @@ import "./satoshi.css";
 import { useState, useEffect } from "react";
 import Loader from "@/components/common/Loader";
 import jwt from 'jsonwebtoken';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter()
+  const router = useRouter();
+  const pathnane = usePathname();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -27,13 +28,15 @@ export default function RootLayout({
           const expirationTime = decodedToken.exp * 1000;
           const currentTime = new Date().getTime();
           if (currentTime <= expirationTime) {
-            router.push('/home');
+            if (pathnane == 'signin' || pathnane == 'signup' || pathnane == '/' || pathnane == 'verify-otp' || pathnane == 'forgot-password' || pathnane == 'change-password') {
+              router.push('/home');
+            }
           }
         }
       } catch (error) {
         console.error('Error decoding or checking token expiration:', error);
       }
-    } 
+    }
   }, []);
 
   return (
