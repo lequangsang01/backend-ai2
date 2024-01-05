@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 
 const url = 'http://127.0.0.1:8000';
 const urlPredict = `${url}/api/predict`;
-
+const urlComments = `${url}/api/comments`;
 const Home = () => {
   const [image1, setImage1] = useState<any>(null);
   const [image2, setImage2] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
-  const inputRef1 = useRef(null);
-  const inputRef2 = useRef(null);
+  const [likeState, setLikeState] = useState<number | null>(null);
+  const [comment, setComment] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const handleClearImages = () => {
@@ -62,6 +62,39 @@ const Home = () => {
         // Handle the API response
         setLoading(false);
         setResult(data);
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
+  const handleLike = () => {
+    setLikeState(1);
+  };
+
+  const handleDislike = () => {
+    setLikeState(0);
+  };
+
+  const sendComment = (idPredict: string) => {
+    const data = {
+      id_predict: idPredict,
+      like: likeState,
+      comment: comment,
+    };
+
+    fetch(urlComments, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the comment submission response
         console.log(data);
       })
       .catch(error => {
@@ -218,8 +251,32 @@ const Home = () => {
         <div className="col-span-4 h-[70vh]">
           {result && result.predict_result && (
             <div>
-              <h1 className="text-lg font-semibold font-size-18">Diagnostic results:</h1>
-              <p className="text-lg font-semibold">{result.predict_result}</p>
+              <div className="h-[35vh]">
+                <h1 className="text-lg font-semibold font-size-18">Diagnostic results:</h1>
+                <p className="text-lg font-semibold">{result.predict_result}</p>
+              </div>
+              <div className="h-[35vh]">
+                <h1 className="text-lg font-semibold font-size-18">Do you agree with the result?</h1>
+                <div className="flex items-center">
+                  <button onClick={() => handleLike()} className="mr-2">
+                    <span>Like</span>
+                    {/* Add like icon here */}
+                  </button>
+                  <button onClick={() => handleDislike()}>
+                    <span>Dislike</span>
+                    {/* Add dislike icon here */}
+                  </button>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Enter your comments"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <button onClick={() => sendComment(result.id_predict)}>Submit</button>
+                </div>
+              </div>
             </div>
           )}
         </div>
