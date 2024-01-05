@@ -90,7 +90,7 @@ const HistoryPage = () => {
                   <img src={url+"/"+item.url_image2} alt="Image 2" className="w-16 h-16" />
                 </td>
                 <td className="w-[20%]">{item.created}</td>
-                <td className="w-[20%] justify-items-center">
+                <td className="w-[20%] flex justify-center items-center">
                   <Image width={32} height={32} src={"/images/icon/trash.svg"} alt="Liked" onClick={() => deletePredict(item.id_predict)} />
                 </td>
               </tr>

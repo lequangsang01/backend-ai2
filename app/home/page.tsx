@@ -191,7 +191,6 @@ const Home = () => {
               accept="image/*"
               className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
             />
-            {/* {image2 && <img src={image2.preview} alt="Image 2" />} */}
             {image2 && (
             <div className="relative h-full w-full z-10">
               <img
