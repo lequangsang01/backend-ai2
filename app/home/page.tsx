@@ -19,6 +19,10 @@ const Home = () => {
   const inputRef2 = useRef(null);
   const [loading, setLoading] = useState(false);
 
+  const handleClearImages = () => {
+    setImage1(null);
+    setImage2(null);
+  };
   const handleImageChange = (event: any, setImageFunc: any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -201,8 +205,12 @@ const Home = () => {
 
           </div>
           <div>
-            <button onClick={handleSubmit} className="bg-blue-500 text-red py-2 px-4 rounded float-right h-[5vh]">
+            
+            <button onClick={handleSubmit} disabled={!image2 && !image1} className=" handleSubmit bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]">
               Submit
+            </button>
+            <button onClick={handleClearImages} disabled={!image2 && !image1} className=" handleClear bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]" style={{marginLeft:'20px'}}>
+              Clear
             </button>
           </div>
         </div>
@@ -236,6 +244,19 @@ const Home = () => {
             height: 10px;
             border-radius: 5px; /* Bo tròn 2 đầu là 1/2 chiều cao */
             background-color: blue;
+          }
+          .handleSubmit{
+            background-color: blue;
+            text-color: white
+          }
+          .handleSubmit.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #808080;
+          }
+          .handleClear{
+            background-color: blue;
+            margin-left: 30px;
           }
         `}
       </style>
