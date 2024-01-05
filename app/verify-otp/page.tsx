@@ -32,7 +32,7 @@ const VerifyOtp: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post(verifyOtp, { email_or_parent_id , otp_code});
-      console.log("Registration successful:", response.data);
+      // console.log("Registration successful:", response.data);
       if(response.data){
         localStorage.setItem('token', response.data?.token);
         router.push('/change-password');

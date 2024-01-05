@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
     try {
       const response = await axios.post(urlLogin, { email_or_parent_id, password });
       // Handle successful registration (e.g., redirect to a success page)
-      console.log("Registration successful:", response.data);
+      // console.log("Registration successful:", response.data);
       // Redirect to success page or display a success message
       if(response.data){
         localStorage.setItem('token', response.data?.token);

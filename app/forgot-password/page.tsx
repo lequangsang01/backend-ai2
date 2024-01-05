@@ -27,7 +27,7 @@ const ForgotPassword: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post(sendOtp, { email_or_parent_id });
-      console.log("Registration successful:", response.data);
+      // console.log("Registration successful:", response.data);
       if(response.data){
         // lưu vào localstorget
         localStorage.setItem('email_or_parent_id', email_or_parent_id);

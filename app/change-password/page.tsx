@@ -38,7 +38,7 @@ const SignUp: React.FC = () => {
     try {
       const response = await axios.post(resetPassword, { token , new_password});
       // Handle successful registration (e.g., redirect to a success page)
-      console.log("Registration successful:", response.data);
+      // console.log("Registration successful:", response.data);
       if(response.data){
         // lưu vào localstorget
         localStorage.setItem('token', response.data?.token);

@@ -59,7 +59,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const handleLogout = () => {
     // Xóa token từ localStorage hoặc các bước khác liên quan đến việc đăng xuất
     localStorage.removeItem('token');
-    router.push('/'); // Thay thế '/login' bằng đường dẫn mong muốn sau khi đăng xuất
+    localStorage.setItem('reload', 'true');
+    // router.push('/'); // Thay thế '/login' bằng đường dẫn mong muốn sau khi đăng xuất
+    // router.refresh();
+    router.push('/');
   };
 
   return (

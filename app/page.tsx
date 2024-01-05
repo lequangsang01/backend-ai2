@@ -1,8 +1,9 @@
+"use client"
 import ECommerce from "@/components/Dashboard/E-commerce";
 import { Metadata } from "next";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const metadata: Metadata = {
   title: "TailAdmin | Next.js E-commerce Dashboard Template",
@@ -11,13 +12,14 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     // Load lại trang khi có thay đổi route
-  //     window.location.reload();
-  //   };
-  // }, []);
-  // };
+  useEffect(() => {
+    if(localStorage.getItem('reload') ){
+      localStorage.removeItem('reload');
+      window.location.reload();
+    }
+  }, []);
+
+  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

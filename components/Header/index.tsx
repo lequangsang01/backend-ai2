@@ -23,6 +23,7 @@ const Header = (props: {
           const currentTime = new Date().getTime();
           if (currentTime > expirationTime) {
             localStorage.removeItem('token');
+            localStorage.setItem('reload', 'true');
             router.push('/');
           }
         }
@@ -30,6 +31,7 @@ const Header = (props: {
         console.error('Error decoding or checking token expiration:', error);
       }
     } else {
+      localStorage.setItem('reload', 'true');
       router.push('/');
     }
   }, []);
