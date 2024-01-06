@@ -4,10 +4,11 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "TailAdmin | Next.js E-commerce Dashboard Template",
-  description: "This is Home Blog page for TailAdmin Next.js",
+  title: "Chest X-ray Diagnostic",
+  description: "For precise image analysis and diagnostics",
   // other metadata
 };
 
@@ -32,6 +33,30 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <div className="py-17.5 px-26 text-center">
+              <Link className="mb-5.5 inline-block" href="/">
+                <Image
+                  className="hidden dark:block"
+                  src={"/images/logo/logo.svg"}
+                  alt="Logo"
+                  width={176}
+                  height={32}
+                />
+                <Image
+                  className="dark:hidden"
+                  src={"/images/logo/logo-dark.svg"}
+                  alt="Logo"
+                  width={176}
+                  height={32}
+                />
+              </Link>
+
+              <p className="2xl:px-20">
+                The Chest X-ray Diagnostic project utilizes cutting-edge AI algorithms for precise image analysis and diagnostics.
+              </p>
+              {/* ảnh */}
+
+            </div>
     </main>
   );
 }

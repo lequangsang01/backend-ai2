@@ -17,31 +17,27 @@ const resetPassword = `${url}/api/reset-password`
 
 const SignUp: React.FC = () => {
   const router = useRouter();
-  const [new_password, setNewPassword] = useState("");
-  // const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
-  };
+  const [new_password, setPassword] = useState("");
+  const [error, setError] = useState<any>(null);
   const [retypePassword, setRetypePassword] = useState("");
   const token = localStorage.getItem('token');
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setError(null)
+  };
   const handleRetypePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRetypePassword(e.target.value);
+    setError(null)
   };
-
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (new_password !== retypePassword) {
-      setErrorMessage('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
     try {
       const response = await axios.post(resetPassword, { token , new_password});
-      // Handle successful registration (e.g., redirect to a success page)
-      // console.log("Registration successful:", response.data);
       if(response.data){
-        // lưu vào localstorget
-        localStorage.setItem('token', response.data?.token);
         router.push('/signin');
       }
     } catch (error : any) {
@@ -74,8 +70,7 @@ const SignUp: React.FC = () => {
                 />
               </Link>
               <p className="2xl:px-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                suspendisse.
+                The Chest X-ray Diagnostic project utilizes cutting-edge AI algorithms for precise image analysis and diagnostics.
               </p>
             </div>
           </div>
@@ -86,16 +81,12 @@ const SignUp: React.FC = () => {
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Create New Password
               </h2>
-
-              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     New Password
                   </label>
                   <div className="relative">
                     <input
-                      name="password"
-                      value={new_password}
                       onChange={handlePassword}
                       type="password"
                       placeholder="Enter your password"
@@ -160,16 +151,19 @@ const SignUp: React.FC = () => {
                       </svg>
                     </span>
                   </div>
+                  <div>
+                    { error !== null &&(<p style={{color:'red'}}>{error}</p>)}
+                  </div>
                 </div>
 
                 <div className="mb-5">
                   <input
+                    onClick={handleSubmit}
                     type="submit"
                     value="Change Password"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
-              </form>
             </div>
           </div>
         </div>
@@ -179,7 +173,4 @@ const SignUp: React.FC = () => {
 };
 
 export default SignUp;
-function setErrorMessage(arg0: string) {
-  throw new Error("Function not implemented.");
-}
 

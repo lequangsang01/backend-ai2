@@ -91,8 +91,7 @@ const VerifyOtp: React.FC = () => {
               </Link>
 
               <p className="2xl:px-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                suspendisse.
+                The Chest X-ray Diagnostic project utilizes cutting-edge AI algorithms for precise image analysis and diagnostics.
               </p>
               {/* ảnh */}
 

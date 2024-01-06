@@ -46,7 +46,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     const data = {
       id_predict: idPredict,
       like: likeState,
-      comment: comment,
+      comment: comment?comment:'',
     };
 
     fetch(urlComments, {
@@ -237,9 +237,10 @@ export default function Page({ params }: { params: { slug: string } }) {
                   </div>
                   <div style={{height:"5vh"}}>
                     <button 
+                      disabled={likeState === null}
                       className=" handleSubmit bg-blue-500 text-red py-2 px-4 rounded float-right h-[40px]"
                       onClick={() => sendComment(historyData?.id_predict)}
-                      style={{marginTop:"20px",backgroundColor:"blue",color:"white",width:"80px"}}>
+                      style={{marginTop:"15px",color:"white",width:"80px",backgroundColor: likeState === null ? "#808080" : "blue",}}>
                         Submit
                     </button>
                   </div>
