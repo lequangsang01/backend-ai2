@@ -2,7 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import { useEffect, useState } from "react";
 import axios from "axios";
 // export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 "use client" 
 import { useEffect, useState } from "react";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import axios from "axios";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";

@@ -1,6 +1,6 @@
 "use client"
 import ECommerce from "@/components/Dashboard/E-commerce";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
