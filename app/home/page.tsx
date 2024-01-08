@@ -1,13 +1,8 @@
 "use client"
 import { useState, useRef } from 'react';
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-// import { Metadata } from "next";
 import Image from "next/image";
-// export const metadata: Metadata = {
-//   title: "Chart Page | Next.js E-commerce Dashboard Template",
-//   description: "This is Chart Page for TailAdmin Next.js",
-//   // other metadata
-// };
+
 
 const url = 'http://127.0.0.1:8000';
 const urlPredict = `${url}/api/predict`;

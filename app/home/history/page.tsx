@@ -1,16 +1,11 @@
 "use client" 
 import { useEffect, useState } from "react";
-// import { Metadata } from "next";
 import axios from "axios";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
 
-// export const metadata: Metadata = {
-//   title: "Calendar Page | Next.js E-commerce Dashboard Template",
-//   description: "This is Calendar page for TailAdmin Next.js",
-//   // other metadata
-// };
+
 
 
 const url = 'http://127.0.0.1:8000'
