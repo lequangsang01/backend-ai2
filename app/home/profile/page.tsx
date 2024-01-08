@@ -5,11 +5,11 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { useEffect, useState } from "react";
 import axios from "axios";
-export const metadata: Metadata = {
-  title: "Profile Page | Next.js E-commerce Dashboard Template",
-  description: "This is Profile page for TailAdmin Next.js",
-  // other metadata
-};
+// export const metadata: Metadata = {
+//   title: "Profile Page | Next.js E-commerce Dashboard Template",
+//   description: "This is Profile page for TailAdmin Next.js",
+//   // other metadata
+// };
 const url = 'http://127.0.0.1:8000'
 const userinfo = `${url}/api/user-info`
 const resetPassword = `${url}/api/reset-password`

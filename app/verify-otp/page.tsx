@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import axios from 'axios';
-export const metadata: Metadata = {
-  title: "Trang Đăng nhập | Next.js E-commerce Dashboard Template",
-  description: "Đây là trang đăng nhập cho TailAdmin Next.js",
-  // các thông tin metadata khác
-};
+// export const metadata: Metadata = {
+//   title: "Trang Đăng nhập | Next.js E-commerce Dashboard Template",
+//   description: "Đây là trang đăng nhập cho TailAdmin Next.js",
+//   // các thông tin metadata khác
+// };
 
 const url = 'http://127.0.0.1:8000'
 const verifyOtp = `${url}/api/verify-forgot-password-otp`

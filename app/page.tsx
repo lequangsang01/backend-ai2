@@ -6,11 +6,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "Chest X-ray Diagnostic",
-  description: "For precise image analysis and diagnostics",
-  // other metadata
-};
+// export const metadata: Metadata = {
+//   title: "Chest X-ray Diagnostic",
+//   description: "For precise image analysis and diagnostics",
+//   // other metadata
+// };
 
 export default function Home() {
   useEffect(() => {

@@ -6,11 +6,11 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-export const metadata: Metadata = {
-  title: "Signup Page | Next.js E-commerce Dashboard Template",
-  description: "This is Signup page for TailAdmin Next.js",
-  // other metadata
-};
+// export const metadata: Metadata = {
+//   title: "Signup Page | Next.js E-commerce Dashboard Template",
+//   description: "This is Signup page for TailAdmin Next.js",
+//   // other metadata
+// };
 
 const url = 'http://127.0.0.1:8000'
 const resetPassword = `${url}/api/reset-password`
