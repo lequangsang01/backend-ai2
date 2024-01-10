@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 
-const url = 'http://127.0.0.1:8000'
+const url = 'http://34.173.44.200:8000'
 const historyEndpoint = `${url}/api/history`
 const urlComments = `${url}/api/comments`;
 

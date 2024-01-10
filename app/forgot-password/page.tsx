@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-const url = 'http://127.0.0.1:8000'
+const url = 'http://34.173.44.200:8000'
 const sendOtp = `${url}/api/send-forgot-password-otp`
 
 const ForgotPassword: React.FC = () => {

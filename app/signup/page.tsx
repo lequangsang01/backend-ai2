@@ -5,7 +5,7 @@ import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 
-const url = 'http://127.0.0.1:8000'
+const url = 'http://34.173.44.200:8000'
 const urlRegister = `${url}/api/register`
 
 const SignUp: React.FC = () => {

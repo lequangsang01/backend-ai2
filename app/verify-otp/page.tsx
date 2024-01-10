@@ -7,7 +7,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from 'axios';
 
 
-const url = 'http://127.0.0.1:8000'
+const url = 'http://34.173.44.200:8000'
 const verifyOtp = `${url}/api/verify-forgot-password-otp`
 const sendOtp = `${url}/api/send-forgot-password-otp`
 
