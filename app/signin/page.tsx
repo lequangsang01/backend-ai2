@@ -83,7 +83,7 @@ const SignIn: React.FC = () => {
               <form  onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Email
+                    Email or User name
                   </label>
                   <div className="relative">
                     <input
